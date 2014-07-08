@@ -20,16 +20,6 @@
   var inspect = utils.inspect,
       flag = utils.flag;
 
-  window.chaiReact = React;
-
-  var div = document.createElement('div'),
-      sampleClass = React.createClass({
-        render: function () {
-          return React.DOM.div();
-        }
-      }),
-      sampleComponent = React.renderComponent(sampleClass(), div);
-
   chai.Assertion.addMethod('state', function (name, value) {
     var component = flag(this, 'object'),
         state = component.state,
