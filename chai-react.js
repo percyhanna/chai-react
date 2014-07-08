@@ -77,4 +77,13 @@
 
     flag(this, 'object', actual);
   });
+
+  chai.Assertion.addMethod('components', function (type) {
+    var component = flag(this, 'object'),
+        actual = React.addons.TestUtils.findAllInRenderedTree(component, function (comp) {
+          return React.addons.TestUtils.isComponentOfType(comp, type);
+        });
+
+    flag(this, 'object', actual);
+  });
 }));
