@@ -1,0 +1,32 @@
+{
+  "author": "Andrew Hanna <percyhanna@gmail.com>",
+  "name": "chai-react",
+  "description": "React assertions for the Chai assertion library",
+  "keywords": [
+    "test",
+    "assertion",
+    "assert",
+    "testing",
+    "react"
+  ],
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/percyhanna/chai-react"
+  },
+  "bugs": {
+    "url": "https://github.com/percyhanna/chai-react/issues"
+  },
+  "scripts": {
+    "test": "mocha-phantomjs test/index.html"
+  },
+  "main": "./chai-react",
+  "engines": {
+    "node": ">= 0.4.0"
+  },
+  "devDependencies": {
+    "chai": "1",
+    "mocha": "1",
+    "mocha-phantomjs": "3"
+  }
+}

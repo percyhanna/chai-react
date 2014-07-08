@@ -1,0 +1,31 @@
+{
+  "name": "chai-react",
+  "main": "chai-react.js",
+  "version": "0.0.1",
+  "authors": [
+    "Andrew Hanna <percyhanna@gmail.com>"
+  ],
+  "description": "React assertions for Chai.",
+  "moduleType": [
+    "amd",
+    "node"
+  ],
+  "keywords": [
+    "chai",
+    "react",
+    "testing",
+    "assertion"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.10.0"
+  }
+}
