@@ -17,8 +17,7 @@
     });
   }
 }(function (chai, utils, React) {
-  var inspect = utils.inspect,
-      flag = utils.flag;
+  var flag = utils.flag;
 
   chai.Assertion.addMethod('state', function (name, value) {
     var component = flag(this, 'object'),
