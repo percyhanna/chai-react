@@ -53,4 +53,28 @@
 
     flag(this, 'object', actual);
   });
+
+  chai.Assertion.addMethod('prop', function (name, value) {
+    var component = flag(this, 'object'),
+        prop = component.prop,
+        actual = prop[name];
+
+    if (!flag(this, 'negate') || undefined === value) {
+      this.assert(
+        undefined !== actual,
+        'expected #{this} to have prop.' + name + ' #{exp}',
+        'expected #{this} not to have prop.' + name + ' #{exp}'
+      );
+    }
+
+    if (undefined !== value) {
+      this.assert(
+        value === actual,
+        'expected #{this} to have prop.' + name + ' with the value #{exp}, but the value was #{act}',
+        'expected #{this} not to have prop.' + name + ' with the value #{act}'
+      );
+    }
+
+    flag(this, 'object', actual);
+  });
 }));
