@@ -21,22 +21,22 @@
 
   chai.Assertion.addMethod('state', function (name, value) {
     var component = flag(this, 'object'),
-        state = component.state,
+        state = component.state || {},
         actual = state[name];
 
     if (!flag(this, 'negate') || undefined === value) {
       this.assert(
         undefined !== actual,
-        'expected #{this} to have state.' + name + ' #{exp}',
-        'expected #{this} not to have state.' + name + ' #{exp}'
+        'expected #{this} to have state \'' + name + '\' #{exp}',
+        'expected #{this} not to have state \'' + name + '\' #{exp}'
       );
     }
 
     if (undefined !== value) {
       this.assert(
         value === actual,
-        'expected #{this} to have state.' + name + ' with the value #{exp}, but the value was #{act}',
-        'expected #{this} not to have state.' + name + ' with the value #{act}'
+        'expected #{this} to have state \'' + name + '\' with the value #{exp}, but the value was #{act}',
+        'expected #{this} not to have state \'' + name + '\' with the value #{act}'
       );
     }
 
@@ -45,22 +45,24 @@
 
   chai.Assertion.addMethod('prop', function (name, value) {
     var component = flag(this, 'object'),
-        prop = component.prop,
-        actual = prop[name];
+        props = component.props || {},
+        actual = props[name];
 
     if (!flag(this, 'negate') || undefined === value) {
       this.assert(
         undefined !== actual,
-        'expected #{this} to have prop.' + name + ' #{exp}',
-        'expected #{this} not to have prop.' + name + ' #{exp}'
+        'expected #{this} to have prop \'' + name + '\' defined',
+        'expected #{this} not to have prop \'' + name + '\' defined'
       );
     }
 
     if (undefined !== value) {
       this.assert(
         value === actual,
-        'expected #{this} to have prop.' + name + ' with the value #{exp}, but the value was #{act}',
-        'expected #{this} not to have prop.' + name + ' with the value #{act}'
+        'expected #{this} to have prop \'' + name + '\' with the value #{exp}, but the value was #{act}',
+        'expected #{this} not to have prop \'' + name + '\' with the value #{act}',
+        value,
+        actual
       );
     }
 
