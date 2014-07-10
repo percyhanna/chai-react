@@ -8,6 +8,7 @@
   "description": "React assertions for Chai.",
   "moduleType": [
     "amd",
+    "globals",
     "node"
   ],
   "keywords": [
@@ -17,7 +18,6 @@
     "assertion"
   ],
   "license": "MIT",
-  "private": true,
   "ignore": [
     "**/.*",
     "node_modules",
@@ -27,5 +27,6 @@
   ],
   "dependencies": {
     "react": "~0.10.0"
-  }
+  },
+  "homepage": "https://github.com/percyhanna/chai-react"
 }
