@@ -3,19 +3,20 @@
     <title>Mocha</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
-    <script src="../bower_components/react/react.js"></script>
+    <script src="../node_modules/es5-shim/es5-shim.js"></script>
+    <script src="../bower_components/react/react-with-addons.js"></script>
     <script src="../node_modules/mocha/mocha.js"></script>
     <script src="../node_modules/chai/chai.js"></script>
-    <script src="../chai-jquery.js"></script>
+    <script src="../node_modules/chai-array/chai-array.js"></script>
+    <script src="../chai-react.js"></script>
     <script>
       mocha.setup('bdd');
-      var should = chai.should();
+      var expect = chai.expect;
       window.onload = function () {
         (window.mochaPhantomJS || window.mocha).run();
       };
     </script>
-    <script src="jquery-inspect-spec.js"></script>
-    <script src="chai-jquery-spec.js"></script>
+    <script src="chai-react-spec.js"></script>
   </head>
   <body>
     <div id="mocha"></div>
