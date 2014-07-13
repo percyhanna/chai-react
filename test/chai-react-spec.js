@@ -35,6 +35,7 @@ describe('chai-react', function() {
         React.DOM.div(
           { className: 'abc testing-class' },
           React.DOM.span({}, 'my span text'),
+          'separator text',
           React.DOM.span({}, 'my other span text'),
           childComponent({}),
           childComponent({ myVar: 5 })
@@ -63,7 +64,8 @@ describe('chai-react', function() {
         React.DOM.div(
           {},
           React.DOM.p({}, 'Hello, this is my state: ', this.state.myState),
-          React.DOM.p({}, 'Hello, this is some state: ', this.state.someState)
+          React.DOM.p({}, 'Hello, this is some state: ', this.state.someState),
+          React.DOM.p({}, 'Child text')
         )
       );
     }
@@ -147,11 +149,49 @@ describe('chai-react', function() {
     });
   });
 
+  describe('componentsWithProp', function () {
+    it('retrieves descendant components with prop', function () {
+      var component = utils.renderIntoDocument(testComponent());
+
+      expect(component).componentsWithProp('myVar').to.have.length(2);
+    });
+
+    it('filters descendant components with specific prop value', function () {
+      var component = utils.renderIntoDocument(testComponent());
+
+      expect(component).componentsWithProp('myVar', 5).to.have.length(1);
+    });
+
+    it('fails with a non component', function() {
+      expect(function () {
+        expect('').componentsWithProp('myVar');
+      }).to.fail('expected \'\' to be a valid React component, but it is not');
+    });
+
+    describe('state', function () {
+      it('allows diving into state of a found component', function () {
+        var component = utils.renderIntoDocument(testComponent());
+
+        expect(component).componentsWithProp('myVar').first.to.have.state('myState', 2);
+        expect(component).componentsWithProp('myVar').last.to.have.state('myState', 10);
+      });
+    });
+
+    describe('prop', function () {
+      it('allows diving into props of a found component', function () {
+        var component = utils.renderIntoDocument(testComponent());
+
+        expect(component).componentsWithProp('myVar').first.to.have.prop('myVar', 1);
+        expect(component).componentsWithProp('myVar').last.to.have.prop('myVar', 5);
+      });
+    });
+  });
+
   describe('componentsOfType', function () {
     it('retrieves descendant components of type', function () {
       var component = utils.renderIntoDocument(testComponent());
 
-      expect(component).componentsOfType(React.DOM.p).to.have.length(4);
+      expect(component).componentsOfType(React.DOM.p).to.have.length(6);
     });
 
     it('fails with a non component', function() {
@@ -176,6 +216,40 @@ describe('chai-react', function() {
         expect(component).componentsOfType(childComponent).first.to.have.prop('myVar', 1);
         expect(component).componentsOfType(childComponent).last.to.have.prop('myVar', 5);
       });
+    });
+  });
+
+  describe('textComponent', function () {
+    it('matches plain text components', function () {
+      var component = utils.renderIntoDocument(testComponent());
+
+      expect(component).to.have.textComponent('separator text');
+    });
+
+    it('matches component child text', function () {
+      var component = utils.renderIntoDocument(testComponent());
+
+      expect(component).to.have.textComponent('Child text');
+    });
+
+    it('negative assertions work', function () {
+      var component = utils.renderIntoDocument(testComponent());
+
+      expect(component).to.not.have.textComponent('abc');
+    });
+
+    it('fails when text is not found', function() {
+      var component = utils.renderIntoDocument(testComponent());
+
+      expect(function () {
+        expect(component).to.have.textComponent('abc');
+      }).to.fail('expected component tree to have a text component with text \'abc\', but none was found.');
+    });
+
+    it('fails with a non component', function() {
+      expect(function () {
+        expect('').to.have.textComponent('abc');
+      }).to.fail('expected \'\' to be a valid React component, but it is not');
     });
   });
 

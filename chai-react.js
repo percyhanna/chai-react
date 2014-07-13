@@ -76,6 +76,38 @@
     flag(this, 'object', actual);
   });
 
+  chai.Assertion.addMethod('componentsWithProp', function (name, value) {
+    var components,
+        component = flag(this, 'object');
+
+    new chai.Assertion(component).is.a.component;
+
+    components = TestUtils.findAllInRenderedTree(component, function (comp) {
+      if (value !== undefined) {
+        return comp.props[name] === value;
+      }
+
+      return name in comp.props;
+    });
+
+    if (undefined !== value) {
+      this.assert(
+        components.length > 0,
+        'expected component tree to have a component with prop \'' + name + '\' with the value #{exp}',
+        'expected component tree not to have prop \'' + name + '\' with the value #{exp}',
+        value
+      );
+    } else {
+      this.assert(
+        components.length > 0,
+        'expected component tree to have at least one component with prop \'' + name + '\' defined',
+        'expected component tree not to have a component with prop \'' + name + '\' defined'
+      );
+    }
+
+    flag(this, 'object', components);
+  });
+
   chai.Assertion.addMethod('componentsOfType', function (type) {
     var actual, component = flag(this, 'object');
 
@@ -86,6 +118,33 @@
     });
 
     flag(this, 'object', actual);
+  });
+
+  chai.Assertion.addMethod('textComponent', function (text) {
+    var actual, component = flag(this, 'object');
+
+    new chai.Assertion(component).is.a.component;
+
+    var textComponents = TestUtils.findAllInRenderedTree(component, function (comp) {
+      return TestUtils.isTextComponent(comp) || typeof comp.props.children === 'string';
+    });
+
+    new chai.Assertion(textComponents).has.length.gt(0);
+
+    var foundMatch = false;
+    for (var i = 0; i < textComponents.length; i++) {
+      if (textComponents[i].props.text === text || textComponents[i].props.children === text) {
+        foundMatch = true;
+        break;
+      }
+    }
+
+    this.assert(
+      foundMatch,
+      'expected component tree to have a text component with text #{exp}, but none was found.',
+      'expected component tree to not have a text component with text #{exp}, but one was found.',
+      text
+    );
   });
 
   chai.Assertion.addProperty('component', function () {
