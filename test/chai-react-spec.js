@@ -59,13 +59,19 @@ describe('chai-react', function() {
       };
     },
 
+    _myClickEvent: function () {
+      this.setState({
+        myState: this.state.myState + 1
+      });
+    },
+
     render: function () {
       return (
         React.DOM.div(
           {},
-          React.DOM.p({}, 'Hello, this is my state: ', this.state.myState),
-          React.DOM.p({}, 'Hello, this is some state: ', this.state.someState),
-          React.DOM.p({}, 'Child text')
+          React.DOM.p({}, 'Hello, this is my state: ' + this.state.myState),
+          React.DOM.p({}, 'Hello, this is some state: ' + this.state.someState),
+          React.DOM.p({ onClick: this._myClickEvent }, 'Child text')
         )
       );
     }
@@ -262,6 +268,21 @@ describe('chai-react', function() {
 
     it('fails with a non component', function() {
       expect('').to.not.be.a.component;
+    });
+  });
+
+  describe('triggerEvent', function () {
+    it('triggers a component event', function () {
+      var component = utils.renderIntoDocument(testComponent());
+
+      expect(component).to.have.a.textComponent('Hello, this is my state: 2');
+      expect(component).to.not.have.a.textComponent('Hello, this is my state: 3');
+
+      expect(component).to.have.a.textComponent('Child text')
+        .and.triggerEvent('click');
+
+      expect(component).to.not.have.a.textComponent('Hello, this is my state: 2');
+      expect(component).to.have.a.textComponent('Hello, this is my state: 3');
     });
   });
 });

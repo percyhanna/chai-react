@@ -157,4 +157,14 @@
       'expected #{this} to not be a valid React component, but it is'
     );
   });
+
+  chai.Assertion.addMethod('triggerEvent', function (eventName, args) {
+    var component = flag(this, 'object');
+
+    new chai.Assertion(component).is.a.component;
+
+    new chai.Assertion(React.addons.TestUtils.Simulate[eventName]).is.a('function');
+
+    React.addons.TestUtils.Simulate[eventName](component.getDOMNode(), args);
+  });
 }));
