@@ -1,7 +1,7 @@
 {
   "name": "chai-react",
   "main": "chai-react.js",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "authors": [
     "Andrew Hanna <percyhanna@gmail.com>"
   ],
