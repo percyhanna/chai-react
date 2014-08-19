@@ -20,12 +20,20 @@
   var flag = utils.flag,
       TestUtils = React.addons.TestUtils;
 
+  function inspectify (component) {
+    component.inspect = function () {
+      return 'React component';
+    };
+  }
+
   chai.Assertion.addMethod('state', function (name, value) {
     var component = flag(this, 'object'),
         state = component.state || {},
         actual = state[name];
 
     new chai.Assertion(component).is.a.component;
+
+    inspectify(component);
 
     if (!flag(this, 'negate') || undefined === value) {
       this.assert(
@@ -55,6 +63,8 @@
 
     new chai.Assertion(component).is.a.component;
 
+    inspectify(component);
+
     if (!flag(this, 'negate') || undefined === value) {
       this.assert(
         undefined !== actual,
@@ -81,6 +91,8 @@
         component = flag(this, 'object');
 
     new chai.Assertion(component).is.a.component;
+
+    inspectify(component);
 
     components = TestUtils.findAllInRenderedTree(component, function (comp) {
       if (value !== undefined) {
@@ -113,6 +125,8 @@
 
     new chai.Assertion(component).is.a.component;
 
+    inspectify(component);
+
     actual = TestUtils.findAllInRenderedTree(component, function (comp) {
       return TestUtils.isComponentOfType(comp, type);
     });
@@ -124,6 +138,8 @@
     var actual, component = flag(this, 'object');
 
     new chai.Assertion(component).is.a.component;
+
+    inspectify(component);
 
     var textComponents = TestUtils.findAllInRenderedTree(component, function (comp) {
       return TestUtils.isTextComponent(comp) || typeof comp.props.children === 'string';
