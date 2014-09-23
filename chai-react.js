@@ -86,7 +86,7 @@
     flag(this, 'object', actual);
   });
 
-  chai.Assertion.addMethod('componentsWithProp', function (name, value) {
+  chai.Assertion.addMethod('componentsWithProp', function (name, value, match) {
     var components,
         component = flag(this, 'object');
 
@@ -96,7 +96,15 @@
 
     components = TestUtils.findAllInRenderedTree(component, function (comp) {
       if (value !== undefined) {
-        return comp.props[name] === value;
+        var prop = comp.props[name];
+
+        switch (match) {
+          case 'contains':
+            return typeof prop === 'string' && prop.indexOf(value) !== -1;
+
+          default:
+            return prop === value;
+        }
       }
 
       return name in comp.props;

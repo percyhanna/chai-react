@@ -36,7 +36,7 @@ describe('chai-react', function() {
           { className: 'abc testing-class' },
           React.DOM.span({}, 'my span text'),
           'separator text',
-          React.DOM.span({}, 'my other span text'),
+          React.DOM.span({ className: 'my-class other-class cool' }, 'my other span text'),
           childComponent({}),
           childComponent({ myVar: 5 })
         )
@@ -189,6 +189,14 @@ describe('chai-react', function() {
 
         expect(component).componentsWithProp('myVar').first.to.have.prop('myVar', 1);
         expect(component).componentsWithProp('myVar').last.to.have.prop('myVar', 5);
+      });
+    });
+
+    describe('contains', function () {
+      it('allows diving into props of a found component', function () {
+        var component = utils.renderIntoDocument(testComponent());
+
+        expect(component).componentsWithProp('className', 'my-class', 'contains').first.to.have.prop('className', 'my-class other-class cool');
       });
     });
   });
