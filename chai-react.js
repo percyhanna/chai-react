@@ -132,12 +132,8 @@
     var actual, component = flag(this, 'object');
 
     new chai.Assertion(component).is.a.component;
-
     inspectify(component);
-
-    actual = TestUtils.findAllInRenderedTree(component, function (comp) {
-      return TestUtils.isComponentOfType(comp, type);
-    });
+    actual = TestUtils.scryRenderedDOMComponentsWithTag(component, type);
 
     flag(this, 'object', actual);
   });
@@ -179,6 +175,26 @@
       TestUtils.isDOMComponent(component) || TestUtils.isCompositeComponent(component),
       'expected #{this} to be a valid React component, but it is not',
       'expected #{this} to not be a valid React component, but it is'
+    );
+  });
+
+  chai.Assertion.addProperty('reactClass', function () {
+    var reactClass = flag(this, 'object');
+
+    this.assert(
+      React.isValidClass(reactClass),
+      'expected #{this} to be a valid React class, but it is not',
+      'expected #{this} to not be a valid React class, but it is'
+    );
+  });
+
+  chai.Assertion.addProperty('element', function () {
+    var element = flag(this, 'object');
+
+    this.assert(
+      React.isValidElement(element),
+      'expected #{this} to be a valid React element, but it is not',
+      'expected #{this} to not be a valid React element, but it is'
     );
   });
 
