@@ -107,7 +107,7 @@
         }
       }
 
-      return name in comp.props;
+      return !TestUtils.isTextComponent(comp) && name in comp.props;
     });
 
     if (undefined !== value) {
@@ -133,9 +133,29 @@
 
     new chai.Assertion(component).is.a.component;
     inspectify(component);
-    actual = TestUtils.scryRenderedDOMComponentsWithTag(component, type);
+    actual = TestUtils.scryRenderedComponentsWithType(component, type);
 
     flag(this, 'object', actual);
+  });
+
+  chai.Assertion.addMethod('componentsWithTag', function (tag) {
+    tag = tag || '';
+    var actual, component = flag(this, 'object');
+
+    new chai.Assertion(component).is.a.component;
+    inspectify(component);
+
+    components = TestUtils.findAllInRenderedTree(component, function (comp) {
+      var tagName;
+
+      if (TestUtils.isCompositeComponent(comp)) {
+        tagName = comp.getDOMNode().tagName.toLowerCase();
+      }
+
+      return tagName === tag.toLowerCase();
+    });
+
+    flag(this, 'object', components);
   });
 
   chai.Assertion.addMethod('textComponent', function (text) {
@@ -153,7 +173,7 @@
 
     var foundMatch = false;
     for (var i = 0; i < textComponents.length; i++) {
-      if (textComponents[i].props.text === text || textComponents[i].props.children === text) {
+      if (textComponents[i].props === text || textComponents[i].props.text === text || textComponents[i].props.children === text) {
         flag(this, 'object', textComponents[i]);
         foundMatch = true;
         break;
