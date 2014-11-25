@@ -173,7 +173,7 @@
 
     var foundMatch = false;
     for (var i = 0; i < textComponents.length; i++) {
-      if (textComponents[i].props === text || textComponents[i].props.text === text || textComponents[i].props.children === text) {
+      if (textComponents[i].props === text || textComponents[i].props.children === text) {
         flag(this, 'object', textComponents[i]);
         foundMatch = true;
         break;
