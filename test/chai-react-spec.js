@@ -31,13 +31,14 @@ describe('chai-react', function() {
 
   var testComponent = React.createClass({
     render: function () {
-      return React.createElement('div',
-                                  { className: 'abc testing-class' },
-                                  'separator text',
-                                  React.createElement('span', { className: 'my-class other-class cool' }, 'my other span text'),
-                                  childComponent({}),
-                                  childComponent({ myVar: 5 })
-                                );
+      return React.createElement(
+        'div',
+        { className: 'abc testing-class' },
+        'separator text',
+        React.createElement('span', { className: 'my-class other-class cool' }, 'my other span text'),
+        childComponent({}),
+        childComponent({ myVar: 5 })
+      );
     }
   });
 
@@ -63,12 +64,13 @@ describe('chai-react', function() {
     },
 
     render: function () {
-      return React.createElement('div',
-                                  {},
-                                  React.createElement('p', {}, 'Hello, this is my state: ' + this.state.myState),
-                                  React.createElement('p', {}, 'Hello, this is some state: ' + this.state.someState),
-                                  React.createElement('p', { onClick: this._myClickEvent }, 'Child text')
-                                );
+      return React.createElement(
+        'div',
+        {},
+        React.createElement('p', {}, 'Hello, this is my state: ' + this.state.myState),
+        React.createElement('p', {}, 'Hello, this is some state: ' + this.state.someState),
+        React.createElement('p', { onClick: this._myClickEvent }, 'Child text')
+      );
     }
   })
 
