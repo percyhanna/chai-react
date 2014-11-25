@@ -31,15 +31,13 @@ describe('chai-react', function() {
 
   var testComponent = React.createClass({
     render: function () {
-      return (
-        React.DOM.div(
-          { className: 'abc testing-class' },
-          React.DOM.span({}, 'my span text'),
-          'separator text',
-          React.DOM.span({ className: 'my-class other-class cool' }, 'my other span text'),
-          childComponent({}),
-          childComponent({ myVar: 5 })
-        )
+      return React.createElement(
+        'div',
+        { className: 'abc testing-class' },
+        'separator text',
+        React.createElement('span', { className: 'my-class other-class cool' }, 'my other span text'),
+        childComponent({}),
+        childComponent({ myVar: 5 })
       );
     }
   });
@@ -66,13 +64,12 @@ describe('chai-react', function() {
     },
 
     render: function () {
-      return (
-        React.DOM.div(
-          {},
-          React.DOM.p({}, 'Hello, this is my state: ' + this.state.myState),
-          React.DOM.p({}, 'Hello, this is some state: ' + this.state.someState),
-          React.DOM.p({ onClick: this._myClickEvent }, 'Child text')
-        )
+      return React.createElement(
+        'div',
+        {},
+        React.createElement('p', {}, 'Hello, this is my state: ' + this.state.myState),
+        React.createElement('p', {}, 'Hello, this is some state: ' + this.state.someState),
+        React.createElement('p', { onClick: this._myClickEvent }, 'Child text')
       );
     }
   })
@@ -201,16 +198,38 @@ describe('chai-react', function() {
     });
   });
 
+describe('componentsWithTag', function () {
+  it('retrieves descendant components of type', function () {
+    var component = utils.renderIntoDocument(testComponent());
+
+    expect(component).componentsWithTag('div').to.have.length(3);
+  });
+
+  it('fails with a non component', function() {
+    expect(function () {
+      expect('').componentsWithTag('p');
+    }).to.fail('expected \'\' to be a valid React component, but it is not');
+  });
+
+  describe('prop', function () {
+    it('allows diving into props of a found component', function () {
+      var component = utils.renderIntoDocument(testComponent());
+
+      expect(component).componentsWithTag('div').atIndex(1).to.have.prop('children');
+    });
+  });
+});
+
   describe('componentsOfType', function () {
     it('retrieves descendant components of type', function () {
       var component = utils.renderIntoDocument(testComponent());
 
-      expect(component).componentsOfType(React.DOM.p).to.have.length(6);
+      expect(component).componentsOfType(childComponent).to.have.length(2);
     });
 
     it('fails with a non component', function() {
       expect(function () {
-        expect('').componentsOfType(React.DOM.p);
+        expect('').componentsOfType('p');
       }).to.fail('expected \'\' to be a valid React component, but it is not');
     });
 
@@ -276,6 +295,28 @@ describe('chai-react', function() {
 
     it('fails with a non component', function() {
       expect('').to.not.be.a.component;
+    });
+  });
+
+  describe('element', function () {
+    it('passes with a valid element', function () {
+      var element = React.createElement(testComponent);
+
+      expect(element).to.be.a.element;
+    });
+
+    it('fails with a non element', function() {
+      expect('').to.not.be.a.element;
+    });
+  });
+
+  describe('reactClass', function () {
+    it('passes with a valid reactClass', function () {
+      expect(testComponent).to.be.a.reactClass;
+    });
+
+    it('fails with a non reactClass', function() {
+      expect('').to.not.be.a.reactClass;
     });
   });
 
