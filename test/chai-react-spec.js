@@ -215,8 +215,7 @@ describe('componentsWithTag', function () {
     it('allows diving into props of a found component', function () {
       var component = utils.renderIntoDocument(testComponent());
 
-      expect(component).componentsWithTag('div').atIndex(1).to.have.prop('myVar', 1);
-      expect(component).componentsWithTag('div').last.to.have.prop('myVar', 5);
+      expect(component).componentsWithTag('div').atIndex(1).to.have.prop('children');
     });
   });
 });

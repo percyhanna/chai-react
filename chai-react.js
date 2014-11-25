@@ -129,31 +129,24 @@
   });
 
   chai.Assertion.addMethod('componentsOfType', function (type) {
-    var actual, component = flag(this, 'object');
+    var components = [];
+    var component = flag(this, 'object');
 
     new chai.Assertion(component).is.a.component;
     inspectify(component);
-    actual = TestUtils.scryRenderedComponentsWithType(component, type);
+    components = TestUtils.scryRenderedComponentsWithType(component, type);
 
-    flag(this, 'object', actual);
+    flag(this, 'object', components);
   });
 
   chai.Assertion.addMethod('componentsWithTag', function (tag) {
-    tag = tag || '';
-    var actual, component = flag(this, 'object');
+    var components = [];
+    var component = flag(this, 'object');
 
     new chai.Assertion(component).is.a.component;
     inspectify(component);
 
-    components = TestUtils.findAllInRenderedTree(component, function (comp) {
-      var tagName;
-
-      if (TestUtils.isCompositeComponent(comp)) {
-        tagName = comp.getDOMNode().tagName.toLowerCase();
-      }
-
-      return tagName === tag.toLowerCase();
-    });
+    components = TestUtils.scryRenderedDOMComponentsWithTag(component, tag);
 
     flag(this, 'object', components);
   });
