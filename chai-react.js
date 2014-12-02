@@ -139,6 +139,16 @@
     flag(this, 'object', components);
   });
 
+  chai.Assertion.addMethod('componentOfType', function (type) {
+    var component = flag(this, 'object');
+
+    new chai.Assertion(component).is.a.component;
+    inspectify(component);
+    var found = TestUtils.findRenderedComponentWithType(component, type);
+
+    flag(this, 'object', found);
+  });
+
   chai.Assertion.addMethod('componentsWithTag', function (tag) {
     var components = [];
     var component = flag(this, 'object');
@@ -149,6 +159,17 @@
     components = TestUtils.scryRenderedDOMComponentsWithTag(component, tag);
 
     flag(this, 'object', components);
+  });
+
+  chai.Assertion.addMethod('componentWithTag', function (tag) {
+    var component = flag(this, 'object');
+
+    new chai.Assertion(component).is.a.component;
+    inspectify(component);
+
+    var found = TestUtils.findRenderedDOMComponentWithTag(component, tag);
+
+    flag(this, 'object', found);
   });
 
   chai.Assertion.addMethod('textComponent', function (text) {
@@ -188,16 +209,6 @@
       TestUtils.isDOMComponent(component) || TestUtils.isCompositeComponent(component),
       'expected #{this} to be a valid React component, but it is not',
       'expected #{this} to not be a valid React component, but it is'
-    );
-  });
-
-  chai.Assertion.addProperty('reactClass', function () {
-    var reactClass = flag(this, 'object');
-
-    this.assert(
-      React.isValidClass(reactClass),
-      'expected #{this} to be a valid React class, but it is not',
-      'expected #{this} to not be a valid React class, but it is'
     );
   });
 
