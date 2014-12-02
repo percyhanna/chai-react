@@ -37,7 +37,8 @@ describe('chai-react', function() {
         'separator text',
         React.createElement('span', { className: 'my-class other-class cool' }, 'my other span text'),
         childComponent({}),
-        childComponent({ myVar: 5 })
+        childComponent({ myVar: 5 }),
+        singleComponent({})
       );
     }
   });
@@ -70,6 +71,28 @@ describe('chai-react', function() {
         React.createElement('p', {}, 'Hello, this is my state: ' + this.state.myState),
         React.createElement('p', {}, 'Hello, this is some state: ' + this.state.someState),
         React.createElement('p', { onClick: this._myClickEvent }, 'Child text')
+      );
+    }
+  })
+
+  var singleComponent = React.createClass({
+    getDefaultProps: function () {
+      return {
+        bar: 1
+      };
+    },
+
+    getInitialState: function () {
+      return {
+        foo: this.props.bar * 2
+      };
+    },
+
+    render: function () {
+      return React.createElement(
+        'h1',
+        {},
+        React.createElement('i', {})
       );
     }
   })
@@ -198,27 +221,49 @@ describe('chai-react', function() {
     });
   });
 
-describe('componentsWithTag', function () {
-  it('retrieves descendant components of type', function () {
-    var component = utils.renderIntoDocument(testComponent());
-
-    expect(component).componentsWithTag('div').to.have.length(3);
-  });
-
-  it('fails with a non component', function() {
-    expect(function () {
-      expect('').componentsWithTag('p');
-    }).to.fail('expected \'\' to be a valid React component, but it is not');
-  });
-
-  describe('prop', function () {
-    it('allows diving into props of a found component', function () {
+  describe('componentsWithTag', function () {
+    it('retrieves descendant components of type', function () {
       var component = utils.renderIntoDocument(testComponent());
 
-      expect(component).componentsWithTag('div').atIndex(1).to.have.prop('children');
+      expect(component).componentsWithTag('div').to.have.length(3);
+    });
+
+    it('fails with a non component', function() {
+      expect(function () {
+        expect('').componentsWithTag('p');
+      }).to.fail('expected \'\' to be a valid React component, but it is not');
+    });
+
+    describe('prop', function () {
+      it('allows diving into props of a found component', function () {
+        var component = utils.renderIntoDocument(testComponent());
+
+        expect(component).componentsWithTag('div').atIndex(1).to.have.prop('children');
+      });
     });
   });
-});
+
+  describe('componentWithTag', function () {
+    it('retrieves descendant component of type', function () {
+      var component = utils.renderIntoDocument(testComponent());
+
+      expect(component).componentWithTag('h1').to.not.be.undefined;
+    });
+
+    it('fails with a non component', function() {
+      expect(function () {
+        expect('').componentWithTag('p');
+      }).to.fail('expected \'\' to be a valid React component, but it is not');
+    });
+
+    describe('prop', function () {
+      it('allows diving into props of a found component', function () {
+        var component = utils.renderIntoDocument(testComponent());
+
+        expect(component).componentWithTag('h1').to.have.prop('children');
+      });
+    });
+  });
 
   describe('componentsOfType', function () {
     it('retrieves descendant components of type', function () {
@@ -248,6 +293,36 @@ describe('componentsWithTag', function () {
 
         expect(component).componentsOfType(childComponent).first.to.have.prop('myVar', 1);
         expect(component).componentsOfType(childComponent).last.to.have.prop('myVar', 5);
+      });
+    });
+  });
+
+  describe('componentOfType', function () {
+    it('retrieves a single descendant component of type', function () {
+      var component = utils.renderIntoDocument(testComponent());
+
+      expect(component).componentOfType(singleComponent).to.not.be.undefined;
+    });
+
+    it('fails with a non component', function() {
+      expect(function () {
+        expect('').componentsOfType('p');
+      }).to.fail('expected \'\' to be a valid React component, but it is not');
+    });
+
+    describe('state', function () {
+      it('allows diving into state of a found component', function () {
+        var component = utils.renderIntoDocument(testComponent());
+
+        expect(component).componentOfType(singleComponent).to.have.state('foo', 2);
+      });
+    });
+
+    describe('prop', function () {
+      it('allows diving into props of a found component', function () {
+        var component = utils.renderIntoDocument(testComponent());
+
+        expect(component).componentOfType(singleComponent).to.have.prop('bar', 1);
       });
     });
   });
