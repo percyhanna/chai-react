@@ -212,16 +212,6 @@
     );
   });
 
-  chai.Assertion.addProperty('reactClass', function () {
-    var reactClass = flag(this, 'object');
-
-    this.assert(
-      React.isValidClass(reactClass),
-      'expected #{this} to be a valid React class, but it is not',
-      'expected #{this} to not be a valid React class, but it is'
-    );
-  });
-
   chai.Assertion.addProperty('element', function () {
     var element = flag(this, 'object');
 

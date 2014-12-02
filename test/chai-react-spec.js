@@ -310,16 +310,6 @@ describe('componentsWithTag', function () {
     });
   });
 
-  describe('reactClass', function () {
-    it('passes with a valid reactClass', function () {
-      expect(testComponent).to.be.a.reactClass;
-    });
-
-    it('fails with a non reactClass', function() {
-      expect('').to.not.be.a.reactClass;
-    });
-  });
-
   describe('triggerEvent', function () {
     it('triggers a component event', function () {
       var component = utils.renderIntoDocument(testComponent());
