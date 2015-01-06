@@ -346,6 +346,12 @@ describe('chai-react', function() {
       expect(component).to.not.have.textComponent('abc');
     });
 
+    it('negative assertions work when not text components exist', function () {
+      var component = utils.renderIntoDocument(React.createElement('div', {}));
+
+      expect(component).to.not.have.textComponent('abc');
+    });
+
     it('fails when text is not found', function() {
       var component = utils.renderIntoDocument(testComponent());
 

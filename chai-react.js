@@ -183,8 +183,6 @@
       return TestUtils.isTextComponent(comp) || typeof comp.props.children === 'string';
     });
 
-    new chai.Assertion(textComponents).has.length.gt(0);
-
     var foundMatch = false;
     for (var i = 0; i < textComponents.length; i++) {
       if (textComponents[i].props === text || textComponents[i].props.children === text) {
