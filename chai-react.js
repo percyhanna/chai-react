@@ -57,11 +57,13 @@
   });
 
   chai.Assertion.addMethod('prop', function (name, value) {
-    var component = flag(this, 'object'),
-        props = component.props || {},
-        actual = props[name];
+    var props, actual,
+        component = flag(this, 'object');
 
     new chai.Assertion(component).is.a.component;
+
+    props = component.props || {};
+    actual = props[name];
 
     inspectify(component);
 
@@ -204,7 +206,7 @@
     var component = flag(this, 'object');
 
     this.assert(
-      TestUtils.isDOMComponent(component) || TestUtils.isCompositeComponent(component),
+      component && (TestUtils.isDOMComponent(component) || TestUtils.isCompositeComponent(component)),
       'expected #{this} to be a valid React component, but it is not',
       'expected #{this} to not be a valid React component, but it is'
     );
