@@ -12,7 +12,7 @@ at once: React tree traversal and tree assertions.
 A new library called [`rquery`](https://github.com/percyhanna/rquery) makes a better
 attempt at focusing on React tree traversal, and leaving assertions to `chai-react`.
 It provides an interface similar to jQuery for traversing rendered React trees. Use
-`rquery` to travers your component's tree, and then `chai-react` to make assertions
+`rquery` to traverse your component's tree, and then `chai-react` to make assertions
 on that traversal.
 
 **Example:**
