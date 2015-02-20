@@ -3,7 +3,7 @@
 chai-react is an extension to the [chai](http://chaijs.com/) assertion library that
 provides a set of React-specific assertions.
 
-# rquery
+## rquery
 
 Although `chai-react` is still a great tool for making assertions on components
 themselves, it started getting a little bloated by trying to solve two problems
@@ -15,7 +15,7 @@ It provides an interface similar to jQuery for traversing rendered React trees. 
 `rquery` to travers your component's tree, and then `chai-react` to make assertions
 on that traversal.
 
-Example:
+**Example:**
 
 ```
 var $component = $R(component);
