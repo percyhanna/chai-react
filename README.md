@@ -18,7 +18,15 @@ on that traversal.
 Example:
 
 ```
-expect($R(component
+var $component = $R(component);
+expect($component.find('MyComponent')[0]).to.have.prop('something');
+expect($component.find('div')[0]).to.have.prop('id', 'abc');
+
+// simulate events
+expect($component.find('.save-notice')).to.have.length(0);
+$component.find('button.save').click();
+expect($component.find('.save-notice')).to.have.length(1);
+```
 
 ## Contributing
 
