@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/percyhanna/chai-react.svg)](https://travis-ci.org/percyhanna/chai-react)
+
 # chai-react
 
 chai-react is an extension to the [chai](http://chaijs.com/) assertion library that
