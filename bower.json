@@ -1,0 +1,31 @@
+{
+  "name": "chai-react",
+  "main": "chai-react.js",
+  "version": "1.0.4",
+  "authors": [
+    "Andrew Hanna <percyhanna@gmail.com>"
+  ],
+  "description": "React assertions for Chai.",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "chai",
+    "react",
+    "testing",
+    "assertion"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  },
+  "homepage": "https://github.com/percyhanna/chai-react"
+}
