@@ -109,7 +109,7 @@
         }
       }
 
-      return !TestUtils.isTextComponent(comp) && name in comp.props;
+      return comp.props && name in comp.props;
     });
 
     if (undefined !== value) {
@@ -174,34 +174,6 @@
     flag(this, 'object', found);
   });
 
-  chai.Assertion.addMethod('textComponent', function (text) {
-    var actual, component = flag(this, 'object');
-
-    new chai.Assertion(component).is.a.component;
-
-    inspectify(component);
-
-    var textComponents = TestUtils.findAllInRenderedTree(component, function (comp) {
-      return TestUtils.isTextComponent(comp) || typeof comp.props.children === 'string';
-    });
-
-    var foundMatch = false;
-    for (var i = 0; i < textComponents.length; i++) {
-      if (textComponents[i].props === text || textComponents[i].props.children === text) {
-        flag(this, 'object', textComponents[i]);
-        foundMatch = true;
-        break;
-      }
-    }
-
-    this.assert(
-      foundMatch,
-      'expected component tree to have a text component with text #{exp}, but none was found.',
-      'expected component tree to not have a text component with text #{exp}, but one was found.',
-      text
-    );
-  });
-
   chai.Assertion.addProperty('component', function () {
     var component = flag(this, 'object');
 
@@ -220,15 +192,5 @@
       'expected #{this} to be a valid React element, but it is not',
       'expected #{this} to not be a valid React element, but it is'
     );
-  });
-
-  chai.Assertion.addMethod('triggerEvent', function (eventName, args) {
-    var component = flag(this, 'object');
-
-    new chai.Assertion(component).is.a.component;
-
-    new chai.Assertion(React.addons.TestUtils.Simulate[eventName]).is.a('function');
-
-    React.addons.TestUtils.Simulate[eventName](component.getDOMNode(), args);
   });
 }));
