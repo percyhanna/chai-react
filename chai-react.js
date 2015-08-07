@@ -2,7 +2,9 @@
   // Module systems magic dance.
   if (typeof require === "function" && typeof exports === "object" && typeof module === "object") {
     // NodeJS
-    module.exports = chaiReact;
+    module.exports = function (chai, utils) {
+      return chaiReact(chai, utils, require('react'));
+    };
   } else if (typeof define === "function" && define.amd) {
     // AMD
     define(['react'], function (React) {
