@@ -186,12 +186,17 @@
   });
 
   chai.Assertion.addMethod('componentWithTag', function (tag) {
-    var component = flag(this, 'object');
+    var found,
+        component = flag(this, 'object');
 
-    new chai.Assertion(component).is.a.component;
-    inspectify(component);
+    if (TestUtils.isDOMComponent(component)) {
+      found = component.tagName.toLowerCase() === tag.toLowerCase();
+    } else {
+      new chai.Assertion(component).is.a.component;
+      inspectify(component);
 
-    var found = TestUtils.findRenderedDOMComponentWithTag(component, tag);
+      found = TestUtils.findRenderedDOMComponentWithTag(component, tag);
+    }
 
     flag(this, 'object', found);
   });
