@@ -7,7 +7,7 @@
     };
   } else if (typeof define === "function" && define.amd) {
     // AMD
-    define(['react', 'react-dom', 'react-addons-test-utils'], function (React, TestUtils) {
+    define(['react', 'react-addons-test-utils'], function (React, TestUtils) {
       return function (chai, utils) {
         return chaiReact(chai, utils, React, TestUtils);
       };
