@@ -3,29 +3,48 @@
   if (typeof require === "function" && typeof exports === "object" && typeof module === "object") {
     // NodeJS
     module.exports = function (chai, utils) {
-      return chaiReact(chai, utils, require('react'));
+      return chaiReact(chai, utils, require('react'), require('react-addons-test-utils'));
     };
   } else if (typeof define === "function" && define.amd) {
     // AMD
-    define(['react'], function (React) {
+    define(['react', 'react-addons-test-utils'], function (React, TestUtils) {
       return function (chai, utils) {
-        return chaiReact(chai, utils, React);
+        return chaiReact(chai, utils, React, TestUtils);
       };
     });
   } else {
     // Other environment (usually <script> tag): plug in to global chai instance directly.
     chai.use(function (chai, utils) {
-      return chaiReact(chai, utils, React);
+      return chaiReact(chai, utils, React, React.addons.TestUtils);
     });
   }
-}(function (chai, utils, React) {
-  var flag = utils.flag,
-      TestUtils = React.addons.TestUtils;
+}(function (chai, utils, React, TestUtils) {
+  var flag = utils.flag;
 
   function inspectify (component) {
     component.inspect = function () {
       return 'React component';
     };
+  }
+
+  function getComponentProp (component, prop) {
+    if (TestUtils.isDOMComponent(component)) {
+      if (prop === 'className') {
+        return component.className;
+      } else {
+        return component.getAttribute(prop);
+      }
+    } else {
+      return component.props[prop];
+    }
+  }
+
+  function componentHasProp (component, prop) {
+    if (TestUtils.isDOMComponent(component)) {
+      return component.hasAttribute(prop);
+    } else {
+      return component.props && prop in component.props;
+    }
   }
 
   chai.Assertion.addMethod('state', function (name, value) {
@@ -59,13 +78,12 @@
   });
 
   chai.Assertion.addMethod('prop', function (name, value) {
-    var props, actual,
+    var actual,
         component = flag(this, 'object');
 
     new chai.Assertion(component).is.a.component;
 
-    props = component.props || {};
-    actual = props[name];
+    actual = getComponentProp(component, name);
 
     inspectify(component);
 
@@ -99,8 +117,10 @@
     inspectify(component);
 
     components = TestUtils.findAllInRenderedTree(component, function (comp) {
+      var prop;
+
       if (value !== undefined) {
-        var prop = comp.props[name];
+        prop = getComponentProp(comp, name);
 
         switch (match) {
           case 'contains':
@@ -111,7 +131,7 @@
         }
       }
 
-      return comp.props && name in comp.props;
+      return componentHasProp(comp, name);
     });
 
     if (undefined !== value) {
@@ -166,12 +186,17 @@
   });
 
   chai.Assertion.addMethod('componentWithTag', function (tag) {
-    var component = flag(this, 'object');
+    var found,
+        component = flag(this, 'object');
 
-    new chai.Assertion(component).is.a.component;
-    inspectify(component);
+    if (TestUtils.isDOMComponent(component)) {
+      found = component.tagName.toLowerCase() === tag.toLowerCase();
+    } else {
+      new chai.Assertion(component).is.a.component;
+      inspectify(component);
 
-    var found = TestUtils.findRenderedDOMComponentWithTag(component, tag);
+      found = TestUtils.findRenderedDOMComponentWithTag(component, tag);
+    }
 
     flag(this, 'object', found);
   });
