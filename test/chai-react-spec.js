@@ -126,7 +126,7 @@ describe('chai-react', function() {
       expect(function () {
         var component = utils.renderIntoDocument(React.createElement(childComponent));
         expect(component).to.have.state('myState', 3);
-      }).to.fail('expected component to have state \'myState\' with the value 2, but the value was 3');
+      }).to.fail('expected component to have state \'myState\' with the value 3, but the value was 2');
     });
 
     it('fails with a non component', function() {
