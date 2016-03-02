@@ -69,8 +69,8 @@
         value === actual,
         'expected component to have state \'' + name + '\' with the value #{exp}, but the value was #{act}',
         'expected component not to have state \'' + name + '\' with the value #{act}',
-        actual,
-        value
+        value,
+        actual
       );
     }
 
