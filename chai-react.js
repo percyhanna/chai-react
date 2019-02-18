@@ -34,6 +34,8 @@
       } else {
         return component.getAttribute(prop);
       }
+    } else if (component.nodeType === Node.TEXT_NODE) {
+      // Skip text nodes as they don't have any props
     } else {
       return component.props[prop];
     }
