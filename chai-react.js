@@ -3,11 +3,11 @@
   if (typeof require === "function" && typeof exports === "object" && typeof module === "object") {
     // NodeJS
     module.exports = function (chai, utils) {
-      return chaiReact(chai, utils, require('react'), require('react-addons-test-utils'));
+      return chaiReact(chai, utils, require('react'), require('react-dom/test-utils'));
     };
   } else if (typeof define === "function" && define.amd) {
     // AMD
-    define(['react', 'react-addons-test-utils'], function (React, TestUtils) {
+    define(['react', 'react-dom/test-utils'], function (React, TestUtils) {
       return function (chai, utils) {
         return chaiReact(chai, utils, React, TestUtils);
       };
@@ -15,7 +15,7 @@
   } else {
     // Other environment (usually <script> tag): plug in to global chai instance directly.
     chai.use(function (chai, utils) {
-      return chaiReact(chai, utils, React, React.addons.TestUtils);
+      return chaiReact(chai, utils, React, ReactTestUtils);
     });
   }
 }(function (chai, utils, React, TestUtils) {
@@ -34,6 +34,8 @@
       } else {
         return component.getAttribute(prop);
       }
+    } else if (component.nodeType === Node.TEXT_NODE) {
+      // Skip text nodes as they don't have any props
     } else {
       return component.props[prop];
     }

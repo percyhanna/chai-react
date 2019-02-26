@@ -27,9 +27,9 @@ describe('chai-react', function() {
     });
   });
 
-  var utils = React.addons.TestUtils;
+  var utils = ReactTestUtils;
 
-  var testComponent = React.createClass({
+  var testComponent = createReactClass({
     render: function () {
       return React.createElement(
         'div',
@@ -43,7 +43,7 @@ describe('chai-react', function() {
     }
   });
 
-  var childComponent = React.createClass({
+  var childComponent = createReactClass({
     getDefaultProps: function () {
       return {
         myVar: 1,
@@ -75,7 +75,7 @@ describe('chai-react', function() {
     }
   })
 
-  var singleComponent = React.createClass({
+  var singleComponent = createReactClass({
     getDefaultProps: function () {
       return {
         bar: 1
